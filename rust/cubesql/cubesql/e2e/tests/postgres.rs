@@ -119,7 +119,7 @@ impl PostgresIntegrationTestSuite {
                         column.name(),
                         column.type_().oid(),
                         PgType::get_by_tid(
-                            PgTypeId::from_oid(column.type_().oid())
+                            PgTypeId::from_oid(column.type_().oid() as i32)
                                 .expect(&format!("Unknown oid {}", column.type_().oid()))
                         )
                         .typname,
@@ -127,7 +127,7 @@ impl PostgresIntegrationTestSuite {
                 }
 
                 // We dont need data when with_rows = false, but it's useful for testing that data type is correct
-                match PgTypeId::from_oid(column.type_().oid())
+                match PgTypeId::from_oid(column.type_().oid() as i32)
                     .expect(&format!("Unknown type oid: {}", column.type_().oid()))
                 {
                     PgTypeId::INT8 => {
