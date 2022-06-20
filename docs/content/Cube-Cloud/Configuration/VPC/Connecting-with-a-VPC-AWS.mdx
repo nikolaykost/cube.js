@@ -1,0 +1,58 @@
+---
+title: Connecting with a VPC on AWS
+permalink: /cloud/configuration/connecting-with-a-vpc/aws
+---
+
+## Prerequisites
+
+To allow Cube Cloud to connect to a VPC on AWS, the following information is
+required:
+
+- **AWS Account ID:** The AWS account ID of the VPC owner.
+- **AWS Region:** [The AWS region][aws-docs-regions] that the VPC resides in.
+  Ensure that the region is available in [Supported Regions](#supported-regions)
+  to see if Cube Cloud VPC connectivity is available in your region.
+- **AWS VPC ID:** The ID of the VPC that Cube Cloud will connect to.
+- **AWS VPC CIDR:** The CIDR block of the VPC that Cube Cloud will connect to.
+
+## Setup
+
+### VPC Peering
+
+After receiving the information above, Cube Cloud will send a [VPC peering
+request][aws-docs-vpc-peering] that must be accepted, either through the [AWS
+Web Console][aws-console] or through an IaC tool.
+
+To accept the VPC peering request through the AWS Web Console, follow [the
+instructions here][aws-docs-accept-vpc-peering] with the following amendments:
+
+- On Step 4, verify the peering request is from Cube Cloud by checking that the
+  region and VPC IDs match the [Supported Regions](#supported-regions).
+- On Step 5, ensure **Modify my route tables now** is selected so that the
+  necessary routes are created.
+- After Step 5, the security group for any databases within the VPC
+  [may require updating](#updating-security-groups) to allow traffic from
+  Cube Cloud.
+
+## Supported Regions
+
+| Region         | VPC ID         | CIDR                 |
+| -------------- | -------------- | -------------------- |
+| `ca-central-1` | `XXXXXXXXXXXX` | `XXX.XXX.XXX.XXX/XX` |
+| `eu-central-1` | `XXXXXXXXXXXX` | `XXX.XXX.XXX.XXX/XX` |
+| `eu-west-1`    | `XXXXXXXXXXXX` | `XXX.XXX.XXX.XXX/XX` |
+| `us-east-1`    | `XXXXXXXXXXXX` | `XXX.XXX.XXX.XXX/XX` |
+| `us-east-2`    | `XXXXXXXXXXXX` | `XXX.XXX.XXX.XXX/XX` |
+| `us-west-2`    | `XXXXXXXXXXXX` | `XXX.XXX.XXX.XXX/XX` |
+
+## Notes
+
+### Updating security groups
+
+[aws-console]: https://console.aws.amazon.com/
+[aws-docs-accept-vpc-peering]:
+  https://docs.aws.amazon.com/vpc/latest/peering/create-vpc-peering-connection.html#accept-vpc-peering-connection
+[aws-docs-regions]:
+  https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-available-regions
+[aws-docs-vpc-peering]:
+  https://docs.aws.amazon.com/vpc/latest/peering/what-is-vpc-peering.html
