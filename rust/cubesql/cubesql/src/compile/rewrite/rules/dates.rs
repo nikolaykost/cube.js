@@ -259,6 +259,23 @@ impl RewriteRules for DateRules {
                     vec![literal_string("week"), column_expr("?column")],
                 ),
             ),
+            rewrite(
+                "datastudio-dates",
+                fun_expr(
+                    "DateTrunc",
+                    vec![
+                        "?granularity".to_string(),
+                        fun_expr(
+                            "DateTrunc",
+                            vec![literal_string("SECOND"), column_expr("?column")],
+                        ),
+                    ],
+                ),
+                fun_expr(
+                    "DateTrunc",
+                    vec!["?granularity".to_string(), column_expr("?column")],
+                ),
+            ),
         ]
     }
 }
